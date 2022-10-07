@@ -1,4 +1,15 @@
+Day 8 of #100daysofcodechallenge
+Website: GeeksForGeeks (Problem of the day 07th Oct)
+Question:Given the root of a binary tree, flatten the tree into a "linked list":
+The "linked list" should use the same Node class where the right child pointer points to the next  node in the list and the left child pointer is always null.
+The "linked list" should be in the same order as a pre-order traversal of the binary tree.
+Example 1:
+Input : 1 / \ 2 5 / \ \ 3 4 6 Output : 1 2 3 4 5 6 Explanation: After flattening, the tree looks like this 1 \ 2 \ 3 \ 4 \ 5 \ 6 Here, left of each node points to NULL and right contains the next node in preorder.The inorder traversal of this flattened tree is 1 2 3 4 5 6.
+Your task:
+You don't have to read input or print anything. Your task is to complete the function flatten() which takes the root of the tree and flattens the tree into a linkes list without using any auxiliary space.
+Note : The driver code prints the inorder traversal of the flattened binary tree.
 
+No. of test cases cleared: 1020
 //User function Template for Java
 
 class Solution
