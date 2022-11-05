@@ -1,0 +1,115 @@
+Reverse Spiral Form of Matrix
+
+Given a matrix as 2D array. Find the reverse spiral traversal of the matrix. 
+
+Example 1:
+
+Input: R = 3, C = 3
+  a = {{9, 8, 7},
+       {6, 5, 4},
+       {3, 2, 1}}
+Output: 5 6 3 2 1 4 7 8 9
+Explanation: Spiral form of the matrix
+in reverse order starts from the centre 
+and goes outward.
+
+
+Example 2:
+
+Input: R = 4, C = 4 
+  a = {{1, 2, 3, 4},
+       {5, 6, 7, 8},
+       {9, 10, 11, 12}, 
+       {13, 14, 15, 16}}
+Output: 10 11 7 6 5 9 13 14 15 16 12 8 4 3 2 1
+Explanation: 
+
+
+Your Task:  
+You dont need to read input or print anything. Complete the function reverseSpiral() which takes R, C and a as input parameters and returns the matrix in reverse spiral form.
+
+Expected Time Complexity: O(R*C)
+Expected Auxiliary Space: O(R*C)
+
+Constraints:
+1 <= R,C <=100
+1 <= a[R][C] <=100
+
+solution:-
+//{ Driver Code Starts
+//Initial Template for Java
+import java.io.*;
+import java.util.*;
+
+class GFG{
+    public static void main(String args[])throws IOException
+    {
+        BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(read.readLine());
+        while(t-- > 0)
+        {
+            String[] input = new String[2]; 
+            input = read.readLine().split(" "); 
+            int R = Integer.parseInt(input[0]); 
+            int C = Integer.parseInt(input[1]); 
+            String s1[] = read.readLine().trim().split("\\s+");
+            int a[][] = new int[R][C];
+            for(int i = 0;i < R*C;i++)
+                a[i/C][i%C] = Integer.parseInt(s1[i]);
+            Solution ob = new Solution();
+            int[] ans = ob.reverseSpiral(R,C,a);
+            for(int i = 0; i < ans.length; i++)
+            {
+                System.out.print(ans[i] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+// } Driver Code Ends
+
+
+//User function Template for Java
+class Solution
+{
+    public int[] reverseSpiral(int R, int C, int[][] a)
+    {
+        // code here
+        int[] ans = new int[R * C];
+        int k = R * C - 1;
+
+        int x = C;
+        int y = R - 1;
+
+        // int[] xdir = {0, 1, 0, -1};
+        // int[] ydir = {1, 0, -1, 0};
+        int i = 0;
+        int j = 0;
+        while (k >= 0) {
+            // left to right
+            for (int w = 0; w < x && k >= 0; ++w) ans[k--] = a[i][j++];
+            i += 1;
+            j -= 1;
+            x -= 1;
+
+            // top to bottom
+            for (int h = 0; h < y && k >= 0; ++h) ans[k--] = a[i++][j];
+            i -= 1;
+            j -= 1;
+            y -= 1;
+
+            // right to left
+            for (int w = 0; w < x && k >= 0; ++w) ans[k--] = a[i][j--];
+            i -= 1;
+            j += 1;
+            x -= 1;
+
+            // bottom to top
+            for (int h = 0; h < y && k >= 0; ++h) ans[k--] = a[i--][j];
+            i += 1;
+            j += 1;
+            y -= 1;
+        }
+        return ans;
+    }
+}
