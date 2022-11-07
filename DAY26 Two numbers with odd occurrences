@@ -1,0 +1,102 @@
+Two numbers with odd occurrences
+
+Given an unsorted array, Arr[] of size N and that contains even number of occurrences for all numbers except two numbers. Find the two numbers in decreasing order which has odd occurrences.
+
+Example 1:
+
+Input:
+N = 8
+Arr = {4, 2, 4, 5, 2, 3, 3, 1}
+Output: {5, 1} 
+Explaination: 5 and 1 have odd occurrences.
+
+Example 2:
+
+Input:
+N = 6
+Arr = {1 7 5 7 5 4 7 4}
+Output: {7, 1}
+Explaination: 7 and 1 have odd occurrences.
+
+Your Task:
+You don't need to read input or print anything. Your task is to complete the function twoOddNum() which takes the array Arr[] and its size N as input parameters and returns the two numbers in decreasing order which have odd occurrences.
+
+
+Expected Time Complexity: O(N)
+Expected Auxiliary Space: O(1)
+
+
+Constraints:
+2 ≤ N ≤ 106
+1 ≤ Arri ≤ 1012
+
+SOlUTION:-
+
+//{ Driver Code Starts
+//Initial Template for Java
+import java.io.*;
+import java.util.*;
+
+class GFG{
+    public static void main(String args[])throws IOException
+    {
+        BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(read.readLine());
+        while(t-- > 0)
+        {
+            int N = Integer.parseInt(read.readLine());
+            String input_line[] = read.readLine().trim().split("\\s+");
+            int Arr[]= new int[N];
+            for(int i = 0; i < N; i++)
+                Arr[i] = Integer.parseInt(input_line[i]);
+            
+            Solution ob = new Solution();
+            int[] ans = ob.twoOddNum(Arr,N);
+            for(int i = 0; i < ans.length; i++)
+            {
+                System.out.print(ans[i] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+// } Driver Code Ends
+
+
+//User function Template for Java
+
+//User function Template for Java
+class Solution
+{
+    public int[] twoOddNum(int Arr[], int N)
+    {
+        // code here
+        int x = 0,ans1 = 0,ans2 = 0;
+        int [] result = new int [2];
+        
+        for(var e:Arr) x^=e;
+        
+        int z = (x & (~ ( x-1 )));
+        
+        for(var e: Arr)
+        {
+            if((z&e) == 0)  ans1 ^= e;
+            else ans2 ^= e; 
+        }
+        
+        if(ans1>ans2) 
+        {
+            result[0] = ans1;
+            result[1] = ans2;
+        }
+        else 
+        {
+            result[1] = ans1;
+            result[0] = ans2;
+        }
+        
+        return result;
+        
+    }
+}
+    
