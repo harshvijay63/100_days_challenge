@@ -1,0 +1,104 @@
+Find patterns
+iven two strings S and W. Find the number of times W appears as a subsequence of string S where every character of string S can be included in forming at most one subsequence.
+ 
+
+Example 1:
+
+Input: 
+ S = "abcdrtbwerrcokokokd" 
+ W = "bcd" 
+Output: 
+ 2
+Explanation: 
+The two subsequences of string W are
+{ S1 , S2 , S3 } and { S6 , S11 , S18 }
+(Assuming 0- based indexing).
+ 
+
+Example 2:
+
+Input: 
+S = "ascfret" 
+W = "qwer" 
+Output: 
+0
+Explanation:
+No valid subsequences are possible.
+ 
+
+Your Task:  
+You don't need to read input or print anything. Your task is to complete the function numberOfSubsequences() which takes the string S and string W as input parameters and returns the number of subsequences of string W in string S.
+
+ 
+
+Expected Time Complexity: O(N2)
+Expected Auxiliary Space: O(N)
+ 
+
+Constraints:
+1<=|S|<=1000
+1<=|W|<=|S|
+
+Solution:-
+
+//{ Driver Code Starts
+import java.io.*;
+import java.util.*;
+
+class GFG
+{
+    public static void main(String args[])throws IOException
+    {
+        BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(read.readLine());
+        while(t-- > 0)
+        {
+            String S = read.readLine();
+            String W = read.readLine();
+
+            Solution ob = new Solution();
+            System.out.println(ob.numberOfSubsequences(S,W));
+        }
+    }
+}
+
+// } Driver Code Ends
+
+
+//User function Template for Java
+class Solution{
+    static int numberOfSubsequences(String S, String W){
+        // code here
+        boolean visited[]=new boolean[S.length()];
+        int ans=0;
+        for(int i=0;i<S.length();i++)
+        {
+            for( ;i<S.length();i++)
+                {
+                    if(S.charAt(i)==W.charAt(0) &&visited[i]==false) break;
+                }
+            if(i==S.length()) break;
+            visited[i]=true;
+            boolean flag=true;
+            int k=i+1;
+            int j=1;
+            for( j=1;j<W.length();j++)
+            {
+                for( ;k<S.length();k++)
+                {
+                    if(S.charAt(k)==W.charAt(j) && visited[k]==false) break;
+                }
+                if(k==S.length()) 
+                {
+                    flag=false;
+                break;
+                }
+                visited[k]=true;
+                k++;
+            }
+            if(flag ) ans++;
+            else break;
+        }
+        return ans;
+    }
+}
