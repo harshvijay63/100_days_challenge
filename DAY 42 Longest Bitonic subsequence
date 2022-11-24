@@ -1,0 +1,95 @@
+Longest Bitonic subsequence
+Given an array of positive integers. Find the maximum length of Bitonic subsequence. 
+A subsequence of array is called Bitonic if it is first strictly increasing, then strictly decreasing.
+ 
+
+Example 1:
+
+Input: nums = [1, 2, 5, 3, 2]
+Output: 5
+Explanation: The sequence {1, 2, 5} is
+increasing and the sequence {3, 2} is 
+decreasing so merging both we will get 
+length 5.
+Example 2:
+
+Input: nums = [1, 11, 2, 10, 4, 5, 2, 1]
+Output: 6
+Explanation: The bitonic sequence 
+{1, 2, 10, 4, 2, 1} has length 6.
+ 
+
+Your Task:
+You don't need to read or print anything. Your task is to complete the function LongestBitonicSequence() which takes the array nums[] as input parameter and returns the maximum length of bitonic subsequence.
+ 
+
+Expected Time Complexity: O(n2)
+Expected Space Complexity: O(n)
+ 
+
+Constraints:
+1 ≤ length of array ≤ 1000
+1 ≤ arr[i] ≤ 1000000
+
+SOLUTION:-
+
+//{ Driver Code Starts
+//Initial Template for Java
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+class GFG
+{
+    public static void main(String[] args) throws IOException
+    {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int T = Integer.parseInt(br.readLine().trim());
+        while(T-->0)
+        {
+            int n = Integer.parseInt(br.readLine().trim());
+            String s = br.readLine().trim();
+            String[] s1 = s.split(" ");
+            int[] nums = new int[n];
+            for(int i = 0; i < s1.length; i++)
+                nums[i] = Integer.parseInt(s1[i]);
+            Solution ob = new Solution();
+            int ans = ob.LongestBitonicSequence(nums);
+            System.out.println(ans);           
+        }
+    }
+}
+
+// } Driver Code Ends
+
+
+class Solution
+{
+    public int LongestBitonicSequence(int[] nums)
+    {
+        int N = nums.length;
+        int [] LIS = new int[N];
+        int [] LDS = new int[N];
+        for(int i=0; i< N; i++){
+            LIS[i] = 1;
+            for(int j=0; j< i; j++){
+                if(nums[i] > nums[j] ){
+                    if(LIS[j]+1 > LIS[i]) LIS[i] = LIS[j] + 1;
+                }
+            }
+        }
+        for(int i= N-1; i>=0; i--){
+            LDS[i] = 1;
+            for(int j= N-1; j> i; j--){
+                if(nums[i] > nums[j]){
+                    if(LDS[j]+1 > LDS[i]) LDS[i] = LDS[j] + 1;
+                }
+            }
+        }
+    int Max = 0;
+        for(int i=0; i< N; i++){
+            Max = Math.max(Max, LIS[i]+ LDS[i] -1);
+        }
+        return Max;
+    }
+}
