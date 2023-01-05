@@ -1,0 +1,192 @@
+Find the longest string
+Given an array of strings arr[]. You have to find the longest string which is lexicographically smallest and also all of its prefix strings are already present in the array.
+
+ 
+
+Example 1:
+
+Input: ab a abc abd
+Output: abc
+Explanation: We can see that length of the longest 
+string is 3. And there are two string "abc" and "abd"
+of length 3. But for string "abc" , all of its prefix
+"a" "ab" "abc" are present in the array. So the
+output is "abc".
+Example 2:
+
+Input: ab a aa abd abc abda abdd abde abdab
+Output: abdab
+Explanation: We can see that each string is fulfilling
+the condition. For each string, all of its prefix 
+are present in the array.And "abdab" is the longest
+string among them. So the ouput is "abdab".
+ 
+
+Your Task:  
+You don't need to read input or print anything. Your task is to complete the function longestString() which takes the array arr[] as input parameter and returns the longest string which is also lexicographically smallest.And if there is no such string return empty string.
+ 
+
+Expected Time Complexity: O(NlogN)
+Expected Space Complexity: O(N)
+
+ 
+
+Constraints:
+1 <= length of arr[] <= 103
+1 <= arr[i].length <=30
+SOLUTION:-
+//{ Driver Code Starts
+import java.io.*;
+import java.util.*;
+
+
+class StringArray
+{
+    public static String[] input(BufferedReader br, int n) throws IOException
+    {
+        String[] s = br.readLine().trim().split(" ");
+        return s;
+    }
+
+    public static void print(String[] a)
+    {
+        for(String e : a)
+            System.out.print(e + " ");
+        System.out.println();
+    }
+
+    public static void print(ArrayList<String> a)
+    {
+        for(String e : a)
+            System.out.print(e + " ");
+        System.out.println();
+    }
+}
+
+class GFG {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int t;
+        t = Integer.parseInt(br.readLine());
+        while(t-- > 0){
+            
+            int n;
+            n = Integer.parseInt(br.readLine());
+            
+            
+            String[] arr = StringArray.input(br, n);
+            
+            Solution obj = new Solution();
+            String res = obj.longestString(n, arr);
+            
+            System.out.println(res);
+            
+        }
+    }
+}
+
+// } Driver Code Ends
+
+class Node
+{
+    Node links[] = new Node[26];
+    boolean flag = false;
+    boolean containsKey(char ch)
+    {
+        return (links[ch - 'a'] != null);
+    }
+    void set(char ch, Node node)
+    {
+        this.links[ch - 'a'] = node;
+    }
+    Node get(char ch)
+    {
+        return links[ch - 'a'];
+    }
+    void setEnd()
+    {
+        flag = true;
+    }
+    boolean isEnd()
+    {
+        return flag;
+    }
+}
+class Pair{
+	Node first;
+	String second;
+	Pair(Node first, String second){
+		this.first = first;
+		this.second = second;
+	}
+}
+class Trie
+{
+    Node root;
+    Trie(){
+    	this.root = new Node();
+    }
+    void insert(String word)
+    {
+        Node node = root;
+        for (int i = 0; i < word.length(); i++)
+        {
+            if (!node.containsKey(word.charAt(i)))
+            {
+                node.set(word.charAt(i), new Node());
+            }
+
+            node = node.get(word.charAt(i));
+        }
+        node.setEnd();
+    }
+
+    String bfs()
+    {
+        Node node = root;
+        Queue<Pair> q = new LinkedList<>();
+        //queue<pair<Node *, string>> q;
+        String ans = "";
+//        char pre;
+//        String temp = "";
+        q.add(new Pair(node, ""));
+        while (!q.isEmpty())
+        {
+            int sz = q.size();
+            for (int i = 0; i < sz; i++)
+            {
+                Node cur = q.peek().first;
+                String s = q.peek().second;
+                q.poll();
+
+                if (cur != root && !cur.isEnd())
+                    continue;
+                for (int j = 0; j < 26; j++)
+                {
+                    char ch = (char)(j + 'a');
+                    if (cur.get(ch) != null)
+                    {
+                        q.add(new Pair(cur.get(ch), s + ch));
+                    }
+                }
+                if (ans.length() < s.length())
+                {
+                    ans = s;
+                }
+            }
+        }
+        return ans;
+    }
+}
+class Solution{
+	public static String longestString(int n, String[] arr) {
+		String ans;
+        Trie trie = new Trie();
+        for (String w : arr)
+        {
+            trie.insert(w);
+        }
+        ans = trie.bfs();
+        return ans;
+    }
+}
