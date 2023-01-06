@@ -1,0 +1,123 @@
+Shortest Prime Path
+You are given two four digit prime numbers Num1 and Num2. Find the distance of the shortest path from Num1 to Num2 that can be attained by altering only one single digit at a time. Every number obtained after changing a digit should be a four digit prime number with no leading zeros.
+
+
+Example 1:
+
+Input:
+Num1 = 1033 
+Num2 = 8179
+Output: 6
+Explanation:
+1033 -> 1733 -> 3733 -> 3739 -> 3779
+                 -> 8779 -> 8179.
+There are only 6 steps required to reach
+Num2 from Num1, and all the intermediate
+numbers are 4 digit prime numbers.
+Example 2:
+
+Input:
+Num1 = 1033 
+Num2 = 1033
+Output:
+0
+
+Your Task:  
+You don't need to read input or print anything. Your task is to
+
+Complete the constructor of the class Solution to precompute a list of prime numbers.  
+Complete function shortestPath() which takes two integers Num1 and Num2 as input parameters and returns the distance of the shortest path from Num1 to Num2. If it is unreachable then return -1.
+
+Expected Time Complexity: O(NlogN)
+Expected Auxiliary Space: O(N)
+
+
+Constraints:
+1000 ≤ Num1,Num2 ≤ 9999
+Num1 and Num2 are prime numbers.
+
+SOLUTION:-
+//{ Driver Code Starts
+//Initial Template for Java
+import java.io.*;
+import java.util.*;
+
+// } Driver Code Ends
+//User function Template for Java
+
+class Solution{
+    
+    int[] prime;
+    Solution()
+    {
+        int mxp=9999;
+        prime=new int[10001];
+        Arrays.fill(prime,1);
+        prime[1]=0;
+        //Seive Of Eratosthenes
+        for(int i=2;i<=mxp;i++)
+        {
+            if(prime[i]==1)
+            {
+                for(int j=2;j*i<=mxp;j++)
+                    prime[j*i]=0;
+            }
+        }
+    }
+    
+    int bfs(int source,int destination)
+    {
+        int[] dp =new int[10001]; //stores the shotest distance from source to destination
+        Arrays.fill(dp,-1);
+        int[] vis=new int[10001]; 
+        Queue<Integer> q = new LinkedList<>(); 
+        q.add(source);
+        dp[source]=0;
+        vis[source]=0;
+        while(q.size()>0)
+        {
+            int current=q.poll();
+            if(vis[current]==1)
+            continue;
+            vis[current]=1;
+            String s=Integer.toString(current);
+            for(int i=0;i<4;i++)
+            {
+                for(char ch='0';ch<='9';ch++)
+                {
+                    if(ch==s.charAt(i)||(ch=='0'&&i==0))
+                    continue;
+                    String nxt=s;
+                    nxt=s.substring(0,i)+ch+s.substring(i+1);
+                    int nxtN=Integer.valueOf(nxt);
+                    if(prime[nxtN]==1&&dp[nxtN]==-1)
+                    {
+                        dp[nxtN]=1+dp[current];
+                        q.add(nxtN);
+                    }
+                }
+            }
+        }
+        return dp[destination];
+    }
+    int shortestPath(int Num1,int Num2){
+        return bfs(Num1,Num2);
+    } 
+}
+
+//{ Driver Code Starts.
+class GFG{
+    public static void main(String args[]) throws IOException{
+        BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(read.readLine());
+        Solution ob = new Solution();
+        while(t-- > 0)
+        {
+            String input_line[] = read.readLine().trim().split("\\s+");
+            int Num1=Integer.parseInt(input_line[0]);
+            int Num2=Integer.parseInt(input_line[1]);
+            System.out.println(ob.shortestPath(Num1,Num2));
+        }
+    }
+}
+// } Driver Code Ends
