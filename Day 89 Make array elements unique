@@ -1,0 +1,93 @@
+Make array elements unique
+Given an array arr[ ] of N elements, your task is to find the minimum number of increment operations required to make all the elements of the array unique. ie- no value in the array should occur more than once. In an operation a value can be incremented by 1 only.
+
+Example 1:
+
+Input:
+N = 3
+arr[] = {1, 2, 2}
+Output:
+1
+Explanation:
+If we increase arr[2] by 1 then the resulting 
+array becomes {1, 2, 3} and has all unique values.
+Hence, the answer is 1 in this case.
+Example 2:
+
+Input: 
+N = 4
+arr[] = {1, 1, 2, 3}
+Output:
+3
+Explanation: 
+If we increase arr[0] by 3, then all array
+elements will be unique. Hence, the answer 
+is 3 in this case.
+Your Task:
+You dont need to read input or print anything. Complete the function minIncrements() which takes the array arr[ ] and its size N as the input parameters, and returns the minimum increment operations required to make all elements of the array unique.
+
+Expected Time Complexity: O(N*log(N))
+Expected Auxiliary Space: O(1)
+
+Constraints:
+1 ≤ N ≤ 105 
+1 ≤ arr[i] ≤ 109
+
+SOLUTION:-
+
+//{ Driver Code Starts
+// Initial Template for Java
+
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+
+class GFG {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br =
+            new BufferedReader(new InputStreamReader(System.in));
+        int t =
+            Integer.parseInt(br.readLine().trim()); // Inputting the testcases
+        while (t-- > 0) {
+
+            
+            int i = 0;
+            int N = Integer.parseInt(br.readLine().trim());
+        
+            int arr[] = new int[(int)(N)];
+            
+            String inputLine2[] = br.readLine().trim().split(" ");
+            for ( i = 0; i < N; i++) {
+                arr[i] = Integer.parseInt(inputLine2[i]);
+            }
+        
+            Solution ob = new Solution();
+            System.out.println(ob.minIncrements(arr,N));
+        }
+    }
+}
+
+// } Driver Code Ends
+
+
+// User function Template for Java
+
+class Solution {
+    public long minIncrements(int[] arr, int N) {
+        // Code here
+      Arrays.sort(arr);
+      
+      int ans =0;
+      
+      for(int i=0; i<N-1; i++){
+            if(arr[i]>=arr[i+1]){
+                while(arr[i]>=arr[i+1]){
+                    arr[i+1] = arr[i+1]+1;
+                    ans++;
+                }
+            }
+      }
+      return ans;
+        
+    }
+}
