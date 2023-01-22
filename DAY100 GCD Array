@@ -1,0 +1,140 @@
+GCD Array
+You are given an array, arr of length N, and also a single integer K . Your task is to split the array arr into K non-overlapping, non-empty subarrays. For each of the subarrays, you calculate the sum of the elements in it. Let us denote these sums as S1, S2, S3, ..., SK. Where Si denotes the sum of the elements in the ith subarray from left.
+
+Let G = GCD( S1, S2 ,S3 , ..., SK).
+
+Find the maximum value of G that can be obtained. 
+The array may contain duplicate elements.
+
+Example 1:
+
+Input:
+N = 5
+K = 4
+arr[] = {6, 7, 5, 27, 3}
+Output: 3
+Explanation: 
+Since K = 4, you have to split the array into 4 subarrays.
+For optimal splitting, split the array into
+4 subarrays as follows: [[6], [7, 5], [27], [3]]
+Therefore, S1 = 6, S2 = 7 + 5 = 12, S3 = 27, S4 = 3
+Hence, G = GCD(S1, S2, S3, S4) = GCD(6, 12, 27, 3) = 3
+It can be shown that 3 is the maximum value of G that can be obtained.
+Thus, the answer is 3.
+Example 2:
+
+Input:
+N = 3
+K = 2
+arr[] = {1, 4, 5}
+Output: 5
+Explanation: 
+Since K = 2, you have to split the array into 2 subarrays.
+For optimal splitting, split the array into
+2 subarrays as follows: [[1, 4], [5]]
+Therefore, S1 = 1 + 4 = 5, S2 = 5
+Hence, G = GCD(S1, S2) = GCD(5,5) = 5
+It can be shown that 5 is the maximum value of G that can be obtained.
+Thus, the answer is 5.
+
+Your Task: 
+You don't need to read input or print anything. Your task is to complete the function solve() which takes the array arr[] and its size N and an integer K as input parameters and returns the required maximum GCD value.
+ 
+
+Expected Time Complexity: O(N * x)
+Expected Auxiliary Space: O(x), x is the number of factors of the sum of all elements.
+
+Constraints:
+
+1 <= N <= 104
+1 <= K <= N
+1 <= arr[i] <= 105
+
+SOLUTION:-
+
+//{ Driver Code Starts
+import java.io.*;
+import java.util.*;
+
+
+class IntArray
+{
+    public static int[] input(BufferedReader br, int n) throws IOException
+    {
+        String[] s = br.readLine().trim().split(" ");
+        int[] a = new int[n];
+        for(int i = 0; i < n; i++)
+            a[i] = Integer.parseInt(s[i]);
+
+        return a;
+    }
+
+    public static void print(int[] a)
+    {
+        for(int e : a)
+            System.out.print(e + " ");
+        System.out.println();
+    }
+
+    public static void print(ArrayList<Integer> a)
+    {
+        for(int e : a)
+            System.out.print(e + " ");
+        System.out.println();
+    }
+}
+
+class GFG {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int t;
+        t = Integer.parseInt(br.readLine());
+        while(t-- > 0){
+            
+            int N;
+            N = Integer.parseInt(br.readLine());
+            
+            
+            int K;
+            K = Integer.parseInt(br.readLine());
+            
+            
+            int[] arr = IntArray.input(br, N);
+            
+            Solution obj = new Solution();
+            int res = obj.solve(N, K, arr);
+            
+            System.out.println(res);
+            
+        }
+    }
+}
+
+// } Driver Code Ends
+
+
+class Solution {
+    public static int solve(int N, int K, int[] arr){
+        //code here
+        if(N==1) return arr[0];
+        int ans=1;
+        for(int i=1;i<N;i++){
+            arr[i]+=arr[i-1];
+        }
+        if(K==1) return arr[N-1];
+        for(int i=2; i*i<=arr[N-1]; i++){
+            if(arr[N-1]%i==0){
+                int c=0, d=0, z=arr[N-1]/i;
+                for(int j : arr){
+                    if(j%i==0) c++;
+                    if(j%z==0) d++;
+                    
+                }
+                if(c>=K) ans=Math.max(ans,i);
+                if(d>=K) ans=Math.max(ans,z);
+            }
+        }
+        return ans;
+    }
+}
+        
